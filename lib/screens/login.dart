@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -27,9 +29,13 @@ class _LoginPageState extends State<LoginPage> {
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body.toString());
         print(data);
-        print('Login Successfully');
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text('Login Successfully')));
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (_) => const SignUpPage()));
       } else {
-        print('Something went wrong');
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Something Went Wrong')));
       }
     } catch (e) {
       print(e.toString());
@@ -43,7 +49,7 @@ class _LoginPageState extends State<LoginPage> {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 167, 198, 224),
-        title: const Text('Sign Up Post Api'),
+        title: const Text('Login Post Api'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),

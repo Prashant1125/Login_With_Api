@@ -1,7 +1,10 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:login_api/screens/login.dart';
 
 late Size mq;
 
@@ -27,9 +30,14 @@ class _SignUpPageState extends State<SignUpPage> {
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body.toString());
         print(data);
-        print('Account created Successfully');
+
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Account Created Successfully')));
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (_) => const LoginPage()));
       } else {
-        print('Something went wrong');
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Something Went Wrong')));
       }
     } catch (e) {
       print(e.toString());
